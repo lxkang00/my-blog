@@ -334,7 +334,7 @@ function render() {
 function renderList(app) {
   let html = `
     <header class="site-header">
-      <h1 class="site-title"><a href="/">我的博客</a></h1>
+      <h1 class="site-title"><a href="#">我的博客</a></h1>
       <p class="site-desc">记录所见 / 所想 / 所学</p>
     </header>
     <ul class="post-list">
@@ -362,7 +362,7 @@ function renderList(app) {
 
 function renderPost(app, post) {
   let html = `
-    <p><a href="/" class="back-link">&larr; 返回首页</a></p>
+    <p><a href="#" class="back-link">&larr; 返回首页</a></p>
     <article>
       <header class="article-header">
         <h1 class="article-title">${post.title}</h1>
