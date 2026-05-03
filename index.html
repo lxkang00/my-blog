@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>我的博客</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", sans-serif;
+    color: #222;
+    background: #fff;
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  /* Header */
+  .site-header {
+    padding: 60px 0 40px;
+    border-bottom: 1px solid #e5e5e5;
+    margin-bottom: 48px;
+  }
+
+  .site-title {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+
+  .site-title a {
+    color: #111;
+    text-decoration: none;
+  }
+
+  .site-desc {
+    color: #666;
+    font-size: 15px;
+    margin-top: 8px;
+  }
+
+  /* Post list */
+  .post-list { list-style: none; }
+
+  .post-item {
+    padding: 28px 0;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .post-item:first-child { padding-top: 0; }
+
+  .post-date {
+    font-size: 13px;
+    color: #999;
+    margin-bottom: 4px;
+  }
+
+  .post-title {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .post-title a {
+    color: #111;
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .post-title a:hover { color: #555; }
+
+  .post-summary {
+    color: #555;
+    font-size: 15px;
+    margin-top: 6px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Article detail */
+  .back-link {
+    display: inline-block;
+    color: #666;
+    font-size: 14px;
+    text-decoration: none;
+    margin-bottom: 32px;
+    transition: color 0.15s;
+  }
+
+  .back-link:hover { color: #111; }
+
+  .article-header {
+    margin-bottom: 36px;
+  }
+
+  .article-title {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: -0.5px;
+  }
+
+  .article-date {
+    color: #999;
+    font-size: 14px;
+    margin-top: 8px;
+  }
+
+  .article-body {
+    font-size: 17px;
+    color: #333;
+  }
+
+  .article-body p {
+    margin-bottom: 1.4em;
+  }
+
+  .article-body h2 {
+    font-size: 22px;
+    font-weight: 600;
+    margin: 2em 0 0.6em;
+  }
+
+  .article-body h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 1.6em 0 0.5em;
+  }
+
+  .article-body ul, .article-body ol {
+    margin-bottom: 1.4em;
+    padding-left: 1.5em;
+  }
+
+  .article-body li { margin-bottom: 0.4em; }
+
+  .article-body blockquote {
+    border-left: 3px solid #ddd;
+    padding-left: 16px;
+    color: #666;
+    margin-bottom: 1.4em;
+  }
+
+  .article-body code {
+    background: #f5f5f5;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 0.9em;
+  }
+
+  .article-body pre {
+    background: #f8f8f8;
+    padding: 16px 20px;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin-bottom: 1.4em;
+    font-size: 14px;
+  }
+
+  .article-body pre code {
+    background: none;
+    padding: 0;
+  }
+
+  .article-body a {
+    color: #0366d6;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  /* Footer */
+  .site-footer {
+    margin-top: 80px;
+    padding: 32px 0;
+    border-top: 1px solid #e5e5e5;
+    color: #999;
+    font-size: 13px;
+    text-align: center;
+  }
+
+  .empty-message {
+    text-align: center;
+    color: #999;
+    padding: 60px 0;
+    font-size: 15px;
+  }
+
+  /* Mobile */
+  @media (max-width: 540px) {
+    .site-header { padding: 40px 0 28px; }
+    .site-title { font-size: 24px; }
+    .article-title { font-size: 26px; }
+    .post-title { font-size: 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="container" id="app"></div>
+
+<script>
+const posts = [
+  {
+    id: "hello-world",
+    title: "Hello World — 我的第一篇博客",
+    date: "2026-05-01",
+    summary: "这是博客的第一篇文章，聊聊为什么要写博客，以及这里会记录些什么。",
+    content: `
+<p>欢迎来到我的博客。</p>
+<p>一直以来都想有一个自己的空间来记录思考和笔记。2026 年，这个想法终于落地了。</p>
+<h2>为什么要写博客</h2>
+<p>写博客最大的好处是<strong>整理自己的思路</strong>。把模糊的想法变成清晰的文章，这个过程本身就很值得。</p>
+<p>此外，公开写作也是一种交流方式。也许某篇文章恰好对某个读者有用，那就是额外的收获。</p>
+<h2>会写些什么</h2>
+<p>目前计划写这几个方向：</p>
+<ul>
+  <li>日常开发中遇到的问题和解决方案</li>
+  <li>读过的好书和读后感</li>
+  <li>对一些技术趋势的个人看法</li>
+</ul>
+<p>没有固定的更新频率。有想写的就写，不想写就放着。保持松弛。</p>
+<p>感谢你来到这里。</p>`
+  },
+  {
+    id: "clean-code-notes",
+    title: "读《代码整洁之道》的一些笔记",
+    date: "2026-04-28",
+    summary: "重温这本经典，记录几个至今仍在影响我编码习惯的原则。",
+    content: `
+<p>最近重读了 Bob Martin 的《代码整洁之道》。这本书第一次读是在刚入行的时候，现在回头再看，理解完全不一样。</p>
+<h2>命名是程序员的第一基本功</h2>
+<p>好的命名让代码读起来像散文。一个变量名、函数名就是一次表达的机会——你在告诉下一个读这段代码的人（大概率是几个月后的你自己）这东西是干什么的。</p>
+<p>如果需要对命名加注释来解释，那命名本身就还有优化的空间。</p>
+<h2>函数应该做一件事</h2>
+<p>如果一个函数需要"和"字来描述它做了什么（"它获取用户数据<strong>和</strong>更新缓存"），那它很可能做了不止一件事。</p>
+<p>小而专一的函数更容易测试、更容易复用、也更容易被删掉——好代码的最终归宿是被删掉。</p>
+<h2>注释是失败的补偿</h2>
+<p>这句话我印象很深。注释不是写得越多越好。清晰的代码本身就是最好的文档。注释应该用来解释<em>为什么</em>这样做，而不是<em>做了什么</em>。</p>
+<blockquote>写注释的恰当用法是弥补我们在用代码表达意图时遭遇的失败。</blockquote>`
+  },
+  {
+    id: "dev-setup-2026",
+    title: "2026 年我的开发环境配置",
+    date: "2026-04-15",
+    summary: "记录当前使用的工具链和编辑器配置，方便下次换电脑时快速重建。",
+    content: `
+<p>每次换电脑最头疼的就是搭环境。趁着刚整理完，把当前的配置记下来。</p>
+<h2>终端 & Shell</h2>
+<ul>
+  <li>Windows Terminal + WSL2 (Ubuntu 24.04)</li>
+  <li>Shell: zsh + starship 提示符</li>
+  <li>字体: JetBrains Mono Nerd Font</li>
+</ul>
+<h2>编辑器</h2>
+<ul>
+  <li>主力: VS Code</li>
+  <li>颜色主题: Catppuccin Mocha</li>
+  <li>必须装的插件: vim 模拟、GitLens、Prettier、GitHub Copilot</li>
+</ul>
+<h2>常用工具</h2>
+<ul>
+  <li>Git: 命令行为主，偶尔用 VS Code 内置</li>
+  <li>Docker: 本地开发数据库和临时环境</li>
+  <li>pnpm: 比 npm 快，磁盘占用也小</li>
+</ul>
+<p>这篇就当作我的配置快照。过半年再看，可能又不一样了。</p>`
+  }
+];
+
+function render() {
+  const app = document.getElementById("app");
+  const hash = window.location.hash.slice(1);
+
+  if (hash) {
+    const post = posts.find(p => p.id === hash);
+    if (post) {
+      renderPost(app, post);
+    } else {
+      app.innerHTML = '<div class="empty-message">文章不存在</div>';
+    }
+    return;
+  }
+
+  renderList(app);
+}
+
+function renderList(app) {
+  let html = `
+    <header class="site-header">
+      <h1 class="site-title"><a href="/">我的博客</a></h1>
+      <p class="site-desc">记录所见、所想、所学</p>
+    </header>
+    <ul class="post-list">
+  `;
+
+  posts.forEach(post => {
+    html += `
+      <li class="post-item">
+        <div class="post-date">${post.date}</div>
+        <h2 class="post-title"><a href="#${post.id}">${post.title}</a></h2>
+        <p class="post-summary">${post.summary}</p>
+      </li>
+    `;
+  });
+
+  html += `
+    </ul>
+    <footer class="site-footer">${new Date().getFullYear()} — 由简单的 HTML 驱动</footer>
+  `;
+
+  app.innerHTML = html;
+}
+
+function renderPost(app, post) {
+  let html = `
+    <p><a href="/" class="back-link">&larr; 返回首页</a></p>
+    <article>
+      <header class="article-header">
+        <h1 class="article-title">${post.title}</h1>
+        <div class="article-date">${post.date}</div>
+      </header>
+      <div class="article-body">${post.content}</div>
+    </article>
+    <footer class="site-footer">${new Date().getFullYear()} — 由简单的 HTML 驱动</footer>
+  `;
+
+  app.innerHTML = html;
+}
+
+window.addEventListener("hashchange", render);
+render();
+</script>
+</body>
+</html>
